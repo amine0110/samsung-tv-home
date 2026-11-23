@@ -1,0 +1,81 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><title>studio</title>
+<link rel="stylesheet" href="app/fonts.css">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: #07060c; font-family: Inter, sans-serif; color: #fbf7f2; }
+  .bg { position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+        background: radial-gradient(ellipse 70% 55% at 50% 38%, #2a1d3f 0%, #120d1d 55%, #07060c 100%); }
+  .glow { position: absolute; left: 50%; top: 40%; width: 1500px; height: 700px; transform: translate(-50%, -50%);
+          background: radial-gradient(ellipse, rgba(255,150,120,.16), transparent 65%); transition: opacity 2s; }
+  .tv { position: absolute; left: 50%; top: 60px; width: 1456px; height: 819px; margin-left: -790px;
+        border-radius: 18px; padding: 10px; background: linear-gradient(#1b1b1f, #0b0b0d);
+        box-shadow: 0 50px 120px rgba(0,0,0,.7), 0 0 0 1px rgba(255,255,255,.06);
+        transition: opacity 1.2s ease, transform 1.4s cubic-bezier(.2,.8,.2,1); }
+  .tv.off { opacity: 0; transform: translateY(30px) scale(.97); }
+  .screen { width: 1436px; height: 799px; overflow: hidden; border-radius: 9px; background: #000; position: relative; }
+  iframe { width: 1920px; height: 1080px; border: 0; transform: scale(.74791); transform-origin: 0 0; transition: opacity .6s; }
+  .stand { position: absolute; left: 50%; top: 879px; width: 360px; height: 14px; margin-left: -242px; border-radius: 0 0 10px 10px;
+           background: linear-gradient(#18181b, #0c0c0e); box-shadow: 0 20px 40px rgba(0,0,0,.6); transition: opacity 1.2s; }
+  .cap { position: absolute; left: 0; right: 0; top: 918px; text-align: center; transition: opacity .5s, transform .5s; }
+  .cap.out { opacity: 0; transform: translateY(10px); }
+  .cap h2 { font-family: Fraunces, serif; font-weight: 300; font-size: 50px; letter-spacing: -.01em; }
+  .cap p { margin-top: 10px; font-size: 24px; color: rgba(251,247,242,.62); }
+  .title { position: absolute; top: 0; right: 0; bottom: 0; left: 0; display: flex; flex-direction: column; align-items: center; justify-content: center;
+           transition: opacity .9s ease; }
+  .title.hide { opacity: 0; pointer-events: none; }
+  .title .kick { font-size: 20px; letter-spacing: .4em; text-transform: uppercase; color: #ffb38a; }
+  .title h1 { margin-top: 22px; font-family: Fraunces, serif; font-weight: 300; font-size: 132px; letter-spacing: -.03em; }
+  .title h1 em { font-style: italic; color: #ffb38a; }
+  .title p { margin-top: 20px; font-size: 30px; color: rgba(251,247,242,.65); }
+  .title .url { margin-top: 44px; font-size: 22px; padding: 12px 26px; border: 1px solid rgba(255,255,255,.18); border-radius: 999px; color: rgba(251,247,242,.8); }
+  /* remote */
+  .remote { position: absolute; right: 56px; top: 520px; width: 150px; height: 330px; border-radius: 70px;
+            background: linear-gradient(160deg, #2b2b30, #121215); box-shadow: 0 30px 60px rgba(0,0,0,.6), inset 0 0 0 1px rgba(255,255,255,.07);
+            transition: opacity .8s; }
+  .remote.off { opacity: 0; }
+  .pad { position: absolute; left: 25px; top: 40px; width: 100px; height: 100px; border-radius: 50%; background: #0c0c0e; box-shadow: inset 0 0 0 1px rgba(255,255,255,.08); }
+  .k { position: absolute; color: rgba(255,255,255,.55); font-size: 15px; transition: color .15s, text-shadow .15s; }
+  .k.u { left: 44px; top: 6px; } .k.d { left: 44px; bottom: 6px; } .k.l { left: 10px; top: 40px; } .k.r { right: 10px; top: 40px; }
+  .ok { position: absolute; left: 30px; top: 30px; width: 40px; height: 40px; border-radius: 50%; background: #1d1d21; box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+        font-size: 12px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.6); transition: background .15s, color .15s; }
+  .btn { position: absolute; left: 50%; width: 34px; height: 34px; margin-left: -17px; border-radius: 50%; background: #1d1d21; box-shadow: inset 0 0 0 1px rgba(255,255,255,.1);
+         font-size: 13px; display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,.55); transition: background .15s, color .15s; }
+  .btn.back { top: 170px; } .btn.home { top: 222px; }
+  .hit { color: #fff !important; text-shadow: 0 0 12px #ffb38a; background: #ffb38a !important; color: #1a1022 !important; }
+  .k.hit { background: none !important; color: #ffb38a !important; }
+  .rlabel { position: absolute; left: 0; right: 0; top: 280px; text-align: center; font-size: 12px; letter-spacing: .3em; color: rgba(255,255,255,.3); }
+</style></head>
+<body>
+  <div class="bg"></div><div class="glow" id="glow"></div>
+  <div class="tv off" id="tv"><div class="screen"><iframe id="f"></iframe></div></div>
+  <div class="stand" id="stand" style="opacity:0"></div>
+  <div class="cap out" id="cap"><h2 id="capT"></h2><p id="capS"></p></div>
+  <div class="remote off" id="remote">
+    <div class="pad"><span class="k u" id="k38">▲</span><span class="k d" id="k40">▼</span><span class="k l" id="k37">◀</span><span class="k r" id="k39">▶</span><div class="ok" id="k13">OK</div></div>
+    <div class="btn back" id="k27">↩</div><div class="btn home">⌂</div><div class="rlabel">REMOTE</div>
+  </div>
+  <div class="title" id="title">
+    <div class="kick">Samsung smart TV · Tizen</div>
+    <h1>samsung-tv-<em>home</em></h1>
+    <p>A personal home screen for your TV, built and installed from your computer.</p>
+    <div class="url" id="url" style="display:none">github.com/amine0110/samsung-tv-home</div>
+  </div>
+<script>
+  var $ = function (id) { return document.getElementById(id); };
+  window.studio = {
+    load: function (q) { return new Promise(function (res) { var f = $("f"); f.style.opacity = 0;
+      setTimeout(function () { f.onload = function () { setTimeout(function () { f.style.opacity = 1; res(); }, 150); }; f.src = "app/index.html" + q; }, 500); }); },
+    tvOn: function () { $("tv").classList.remove("off"); $("stand").style.opacity = 1; $("remote").classList.remove("off"); },
+    tvOff: function () { $("tv").classList.add("off"); $("stand").style.opacity = 0; $("remote").classList.add("off"); },
+    title: function (show, url) { $("title").classList.toggle("hide", !show); $("url").style.display = url ? "" : "none"; },
+    cap: function (t, s) { var c = $("cap"); c.classList.add("out");
+      setTimeout(function () { $("capT").textContent = t; $("capS").textContent = s || ""; if (t) c.classList.remove("out"); }, 450); },
+    press: function (code) {
+      var w = $("f").contentWindow; w.document.dispatchEvent(new w.KeyboardEvent("keydown", { keyCode: code, bubbles: true }));
+      var k = $("k" + code); if (k) { k.classList.add("hit"); setTimeout(function () { k.classList.remove("hit"); }, 260); }
+    },
+    app: function () { return $("f").contentWindow; }
+  };
+</script>
+</body></html>

@@ -1,0 +1,11 @@
+.DS_Store
+__pycache__/
+build/
+*.wgt
+.tv-token
+project.json
+# downloaded by scripts/fetch_assets.py into your own project
+assets/app/fonts/
+assets/app/fonts.css
+assets/app/adhkar.js
+tools/demo/node_modules/

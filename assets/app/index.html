@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>Home</title>
+<link rel="stylesheet" href="fonts.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="stage" data-phase="evening">
+  <div class="sky">
+    <div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div>
+    <div class="stars" id="stars"></div>
+    <div class="grain"></div>
+  </div>
+
+  <header class="top">
+    <div class="mono">
+      <span class="mono-a" id="monoA"></span>
+      <svg class="mono-heart" viewBox="0 0 24 22"><path d="M12 21s-8.5-5.6-10.6-10.3C-0.2 7.2 2 2.5 6.2 2.5c2.5 0 4.2 1.4 5.8 3.6 1.6-2.2 3.3-3.6 5.8-3.6 4.2 0 6.4 4.7 4.8 8.2C20.5 15.4 12 21 12 21z"/></svg>
+      <span class="mono-z" id="monoB"></span>
+    </div>
+    <div class="status">
+      <div class="weather" id="weather" hidden>
+        <span class="w-icon" id="wIcon"></span>
+        <span class="w-temp" id="wTemp"></span>
+        <span class="w-meta"><span id="wDesc"></span><span id="wCity"></span></span>
+      </div>
+      <div class="clock-wrap">
+        <div class="clock" id="clock">--:--</div>
+        <div class="date-row">
+          <div class="date" id="date"></div>
+          <div class="hijri" id="hijri" dir="rtl"></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="hero">
+    <div class="hero-text">
+      <div class="eyebrow" id="eyebrow">Welcome home</div>
+      <h1 class="greeting"><span id="greet">Good evening</span>,<br><em id="names"></em></h1>
+      <div class="message" id="message"></div>
+      <div class="together" id="together" hidden></div>
+      <div class="actions" id="actions"></div>
+    </div>
+    <aside class="moment" id="moment">
+      <div class="moment-photos" id="photos"></div>
+      <div class="prayer" id="prayer">
+        <div class="p-head"><span class="p-k">Next prayer</span><span class="p-k-ar">الصلاة القادمة</span></div>
+        <div class="p-next">
+          <div class="p-name"><span id="pName">—</span><span class="p-name-ar" id="pNameAr"></span></div>
+          <div class="p-time" id="pTime">--:--</div>
+        </div>
+        <div class="p-count" id="pCount"></div>
+        <div class="p-list" id="pList"></div>
+      </div>
+    </aside>
+  </main>
+
+  <section class="dock">
+    <div class="dock-head">
+      <span class="dock-title">What are we watching?</span>
+      <span class="dock-hint" id="dockHint"><kbd>◀</kbd><kbd>▶</kbd> choose &nbsp; <kbd>OK</kbd> open</span>
+    </div>
+    <div class="rail-mask"><div class="rail" id="rail"></div></div>
+    <div class="focus-info"><span id="focusTag"></span><span id="focusLast"></span></div>
+  </section>
+
+  <div class="ambient" id="ambient">
+    <div class="amb-clock" id="ambClock"></div>
+    <div class="amb-date" id="ambDate"></div>
+    <div class="amb-msg" id="ambMsg"></div>
+  </div>
+
+  <div class="reader" id="reader">
+    <div class="r-top">
+      <div class="r-title"><span id="rTitleAr"></span><span class="r-title-en" id="rTitleEn"></span></div>
+      <div class="r-progress"><span id="rIdx"></span><div class="r-bar"><i id="rBar"></i></div></div>
+    </div>
+    <div class="r-body"><div class="r-text" id="rText" dir="rtl"></div></div>
+    <div class="r-foot">
+      <div class="r-ref" id="rRef" dir="rtl"></div>
+      <div class="r-count" id="rCount"><span id="rCountN"></span><small>OK</small></div>
+      <div class="r-hint" dir="rtl"><kbd>OK</kbd> عدّ &nbsp; <kbd>◀</kbd> التالي &nbsp; <kbd>▶</kbd> السابق &nbsp; <kbd>↩</kbd> رجوع</div>
+    </div>
+    <div class="r-desc" id="rDesc" dir="rtl"></div>
+  </div>
+
+  <audio id="kahfAudio" preload="none"></audio>
+  <div class="toast" id="toast"></div>
+</div>
+<script src="config.js"></script>
+<script src="adhkar.js" onerror="void 0"></script>
+<script src="app.js"></script>
+</body>
+</html>
